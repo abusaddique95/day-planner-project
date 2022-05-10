@@ -39,11 +39,11 @@ const workingHours = [
 ];
 
 // current date
-const renderDateSection = () => {
-  let currentDate = `<p id="currentDay" class="lead"></p>`;
-  $("jumbotron").append(currentDate);
 
-  //return moment().format("ddd Do MMM YYYY");
+const renderDateSection = () => {
+  const currentDate = moment().format("dddd,  Do of MMMM YYYY");
+  console.log(currentDate);
+  $("#currentDay").append(currentDate);
 };
 
 // local storage
@@ -67,43 +67,38 @@ const writeToLocalStorage = (key, value) => {
   // set stringified value to LS for key name
   localStorage.setItem(key, stringifiedValue);
 };
+const getName = (workingHours) => {
+  const currentHourBlock = moment().hour();
+  // if statement for past, present, future.
+
+  if (workingHours === currentHourBlock) {
+    return "present";
+  }
+
+  if (workingHours > currentHourBlock) {
+    return "future";
+  }
+  return "past";
+};
 
 const renderTimeblocks = () => {
   // create and append timeblocks
-  const timeBlock = $("#time-blocks");
-
-  const getName = (workingHours) => {
-    const currentHourBlock = moment().hour();
-    // if statement for past, present, future.
-
-    if (workingHours === currentHourBlock) {
-      return "present";
-    }
-
-    if (workingHours > currentHourBlock) {
-      return "future";
-    }
-    return "past";
-  };
-
+  const timeBlocks = $("#time-blocks");
   const renderTimeblock = (workingHours) => {
-    console.log("working hours " + JSON.stringify(workingHours));
-
-    const timeBlock = `<div class="d-flex flow-row ${getName(workingHours)}>
+    const timeBlock = `<div class="d-flex flow-row ${getName(workingHours.key)}>
             <div class="col text-center">${workingHours.label}</div>
             <textarea data-info=${workingHours.key}
             class="col-7 table-bordered border-primary">${calenderQuery(
               workingHours.key
-            )}
-                </textarea>
+            )}</textarea>
             <div class="col text-center my-1">
-                <button>
+                <button type="button" data-hour=${workingHours.key}>
                     Save
                 </button>
             </div>
             </div>`;
 
-    timeBlock.addEventListener("click", saveButton);
+    timeBlocks.append(timeBlock);
   };
 
   const saveButton = (event) => {
@@ -115,8 +110,9 @@ const renderTimeblocks = () => {
 
 const onReady = () => {
   console.log("onReady");
+  renderDateSection();
   renderTimeblocks();
 };
 
-$("#currentDay").text(renderDateSection);
+// $("#currentDay").text(renderDateSection);
 $(document).ready(onReady);
