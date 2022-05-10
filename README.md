@@ -24,3 +24,6 @@ Majority of the styling was conducted via bootstrap to get the general layout of
 used javascript to dynamically render the HTML elements and have functions be called on load of the page. local storage was initialised in order to save the functions which were entered into the planner.
 
 # Screenshots
+
+![screenshot](./assets/css/images/ls.png)
+![screenshot](./assets/css/images/ls.png)
