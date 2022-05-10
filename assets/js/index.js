@@ -103,9 +103,18 @@ const renderTimeblocks = () => {
 
   const saveButton = (event) => {
     const button = $(event.target);
+    if (button.is("button")) {
+      const key = button.attr("data-hour");
+      const value = $(`textarea[data-info="${key}"]`).val().trim();
+      console.log(value);
+      const dayPlanner = readFromLocalStorage("planner", {});
+      dayPlanner[key] = value;
+      writeToLocalStorage("dayPlanner", dayPlanner);
+    }
   };
 
   workingHours.forEach(renderTimeblock);
+  timeBlocks.on("click", saveButton);
 };
 
 const onReady = () => {
