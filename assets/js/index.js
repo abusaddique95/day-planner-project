@@ -59,7 +59,12 @@ const readFromLocalStorage = (key, defaultValue) => {
   }
 };
 
-const calenderQuery = (workingHours) => {};
+const calenderQuery = (workingHour) => {
+  // read from LS
+  const dayPlanner = readFromLocalStorage("dayPlanner", {});
+
+  return dayPlanner[workingHour] || "";
+};
 
 const writeToLocalStorage = (key, value) => {
   // convert value to string
@@ -67,6 +72,7 @@ const writeToLocalStorage = (key, value) => {
   // set stringified value to LS for key name
   localStorage.setItem(key, stringifiedValue);
 };
+
 const getName = (workingHours) => {
   const currentHourBlock = moment().hour();
   // if statement for past, present, future.
@@ -85,14 +91,18 @@ const renderTimeblocks = () => {
   // create and append timeblocks
   const timeBlocks = $("#time-blocks");
   const renderTimeblock = (workingHours) => {
-    const timeBlock = `<div class="d-flex flow-row ${getName(workingHours.key)}>
-            <div class="col text-center">${workingHours.label}</div>
+    const timeBlock = `<div class="row ${getName(workingHours.key)}" >
+            <div class="col-sm-12 col-md-2 d-flex justify-content-center align-items-center">${
+              workingHours.label
+            }</div>
             <textarea data-info=${workingHours.key}
-            class="col-7 table-bordered border-primary">${calenderQuery(
+            class="col-sm-12 col-md-8 table-bordered border-primary">${calenderQuery(
               workingHours.key
             )}</textarea>
-            <div class="col text-center my-1">
-                <button type="button" data-hour=${workingHours.key}>
+            <div class="col-sm-12 col-md-2 d-flex justify-content-center align-items-center">
+                <button class="btn btn-success" type="button" data-hour=${
+                  workingHours.key
+                }>
                     Save
                 </button>
             </div>
@@ -106,8 +116,8 @@ const renderTimeblocks = () => {
     if (button.is("button")) {
       const key = button.attr("data-hour");
       const value = $(`textarea[data-info="${key}"]`).val().trim();
-      console.log(value);
-      const dayPlanner = readFromLocalStorage("planner", {});
+      console.log(key, value);
+      const dayPlanner = readFromLocalStorage("dayPlanner", {});
       dayPlanner[key] = value;
       writeToLocalStorage("dayPlanner", dayPlanner);
     }
