@@ -2,7 +2,7 @@
 
 day planner with jQuery
 
-# technologies
+# Technologies
 
 HTML
 CSS
@@ -20,3 +20,7 @@ initial page was designed on html with classes and IDs given to specific element
 Majority of the styling was conducted via bootstrap to get the general layout of the page and the calender. further CSS was applied and rendered with momentjs to make past, present and future different colours.
 
 # Javascript
+
+used javascript to dynamically render the HTML elements and have functions be called on load of the page. local storage was initialised in order to save the functions which were entered into the planner.
+
+# Screenshots
