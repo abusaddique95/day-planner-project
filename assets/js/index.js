@@ -77,7 +77,6 @@ const timeBlock = $("#time-blocks");
 const renderTimeblock = () => {
   console.log(workingHours);
 };
-workingHours.forEach(renderTimeblock);
 
 const timeblock = `<div class="d-flex flow-row">
 <div class="col text-center">
@@ -93,10 +92,12 @@ const timeblock = `<div class="d-flex flow-row">
 </div>
 </div>`;
 workingHours.forEach(renderTimeblock);
+timeBlock.on("click", saveButton);
 
 const saveButton = (event) => {
     const button = $(event.target);
     
+
 
 }
 
