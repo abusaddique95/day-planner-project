@@ -40,84 +40,83 @@ const workingHours = [
 
 // current date
 const renderDateSection = () => {
-  return moment().format("ddd Do MMM YYYY");
-  $("#currentDay").append(currentDate);
-};
+  let currentDate = `<p id="currentDay" class="lead"></p>`;
+  $("jumbotron").append(currentDate);
 
-$("#currentDay").text(renderDateSection);
+  //return moment().format("ddd Do MMM YYYY");
+};
 
 // local storage
 const readFromLocalStorage = (key, defaultValue) => {
-    // get from LS using key name
-    const dataFromLS = localStorage.getItem(key);
-    // parse data from LS
-    const parsedData = JSON.parse(dataFromLS);
-    if (parsedData) {
-      return parsedData;
-    } else {
-      return defaultValue;
-    }
-  };
-  const writeToLocalStorage = (key, value) => {
-    // convert value to string
-    const stringifiedValue = JSON.stringify(value);
-    // set stringified value to LS for key name
-    localStorage.setItem(key, stringifiedValue);
-
-// first function
-const onLoad = () => {};
-
-
-
-const renderTimeblocks = () => {};
-
-// create and append timeblocks
-const timeBlock = $("#time-blocks");
-
-const renderTimeblock = () => {
-  console.log(workingHours);
+  // get from LS using key name
+  const dataFromLS = localStorage.getItem(key);
+  // parse data from LS
+  const parsedData = JSON.parse(dataFromLS);
+  if (parsedData) {
+    return parsedData;
+  } else {
+    return defaultValue;
+  }
 };
 
-const timeblock = `<div class="d-flex flow-row">
-<div class="col text-center">
-    9am
-</div>
-<div class="col-7 table-bordered border-primary">
-    finish js homework
-</div>
-<div class="col text-center my-1">
-    <button>
-        Save
-    </button>13
-</div>
-</div>`;
-workingHours.forEach(renderTimeblock);
-timeBlock.on("click", saveButton);
+const calenderQuery = (workingHours) => {};
 
-const saveButton = (event) => {
-    const button = $(event.target);
-    
+const writeToLocalStorage = (key, value) => {
+  // convert value to string
+  const stringifiedValue = JSON.stringify(value);
+  // set stringified value to LS for key name
+  localStorage.setItem(key, stringifiedValue);
+};
 
+const renderTimeblocks = () => {
+  // create and append timeblocks
+  const timeBlock = $("#time-blocks");
 
-}
-
-const getName = (workingHours) => {
+  const getName = (workingHours) => {
     const currentHourBlock = moment().hour();
     // if statement for past, present, future.
 
     if (workingHours === currentHourBlock) {
-        return "present";
+      return "present";
     }
 
-        if (workingHours > currentHourBlock) {
-return "future"
+    if (workingHours > currentHourBlock) {
+      return "future";
     }
-    else return "past"
-}
+    return "past";
+  };
+
+  const renderTimeblock = (workingHours) => {
+    console.log("working hours " + JSON.stringify(workingHours));
+
+    const timeBlock = `<div class="d-flex flow-row ${getName(workingHours)}>
+            <div class="col text-center">${workingHours.label}</div>
+            <textarea data-info=${workingHours.key}
+            class="col-7 table-bordered border-primary">${calenderQuery(
+              workingHours.key
+            )}
+                </textarea>
+            <div class="col text-center my-1">
+                <button>
+                    Save
+                </button>
+            </div>
+            </div>`;
+
+    timeBlock.addEventListener("click", saveButton);
+  };
+
+  const saveButton = (event) => {
+    const button = $(event.target);
+  };
+
+  workingHours.forEach(renderTimeblock);
+};
 
 const onReady = () => {
-  console.log(onReady);
+  console.log("onReady");
   renderTimeblocks();
 };
 
+$("#currentDay").text(renderDateSection);
 $(document).ready(onReady);
